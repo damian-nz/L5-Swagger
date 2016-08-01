@@ -1,5 +1,5 @@
 {
-  "name": "darkaonline/l5-swagger",
+  "name": "damian-nz/l5-swagger",
   "description": "Swagger integration to Laravel 5",
   "keywords": [
     "laravel",
@@ -9,8 +9,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Darius Matulionis",
-      "email": "darius@matulionis.lt"
+      "name": "Damian Redpath",
+      "email": "github@acropixel.com"
     }
   ],
   "require": {
