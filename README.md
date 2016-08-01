@@ -5,47 +5,19 @@ Swagger 2.0 for Laravel >=5.1
 
 This package is a wrapper of [Swagger-php](https://github.com/zircote/swagger-php) and [jensoleg/swagger-ui](https://github.com/jensoleg/swagger-ui) adapted to work with Laravel 5.
 
+### Full credit to [DarkaOnLine/L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger) for creating this package originally.
+
 Installation
 ============
 
-For Swagger 2.0
 ```php
-    composer require "darkaonline/l5-swagger:~3.0"
+    composer require "damian-nz/l5-swagger:~3.0"
 ```
 
-For Swagger 1.0
-```php
-    composer require "darkaonline/l5-swagger:~0.1"
-```
-
-- Open your `AppServiceProvider` (located in `app/Providers`) and add this line in `register` function
-```php
-    $this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);
-```
-or open your `config/app.php` and add this line in `providers` section
+- Open your `config/app.php` and add this line in `providers` section
 ```php
     \L5Swagger\L5SwaggerServiceProvider::class
 ```
-Changes in 3.1
-============
-- Closure routes moved to controller and got names (fanks to @bbs-smuller [#19](https://github.com/DarkaOnLine/L5-Swagger/pull/19))
-- Added option to rename generated API .json file name
-
-Changes in 3.0
-============
-- More accurate naming and structured config
-- Swagger UI - v2.1.4
-- Tests
-
-Migrate from 2.0 to 3.0
-============
-- Replace `$this->app->register('\Darkaonline\L5Swagger\L5SwaggerServiceProvider');` with `$this->app->register(\L5Swagger\L5SwaggerServiceProvider::class);` in your `AppServiceProvider`
-or add `\L5Swagger\L5SwaggerServiceProvider::class` line in your `config/app.php` file
-- Run `l5-swagger:publish-config` to publish new config and make your changes if needed
-- Remove `public/vendor/l5-swagger` directory
-- Remove `resources/views/vendor/l5-swagger` directory
-- Run `l5-swagger:publish-assets` to publish new swagger-ui assets
-- Run `l5-swagger:publish-views` to publish new views
 
 Configuration
 ============
