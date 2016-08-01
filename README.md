@@ -16,7 +16,7 @@ Installation
 
 - Open your `config/app.php` and add this line in `providers` section
 ```php
-    \L5Swagger\L5SwaggerServiceProvider::class
+    L5Swagger\L5SwaggerServiceProvider::class
 ```
 
 Configuration
