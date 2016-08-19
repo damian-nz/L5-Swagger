@@ -59,10 +59,17 @@ class SwaggerController extends BaseController
             // details.
             $extras['validatorUrl'] = config('l5-swagger.validatorUrl');
         }
-
+        
+        $viewPath = config('l5-swagger.paths.views_relative');
+        if (empty($viewPath) === false) {
+            $view = sprintf('%s/index', $viewPath);
+        } else {
+            $view = 'l5-swagger::index';
+        }
+        
         // Need the / at the end to avoid CORS errors on Homestead systems.
         $response = Response::make(
-            view('l5-swagger::index', [
+            view($view, [
                 'apiKey'             => config('l5-swagger.api.auth_token'),
                 'apiKeyVar'          => config('l5-swagger.api.key_var'),
                 'securityDefinition' => config('l5-swagger.api.security_definition'),
