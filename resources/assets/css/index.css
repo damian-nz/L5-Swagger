@@ -5888,21 +5888,26 @@ button.close {
     height: 50px;
     overflow: scroll;
 }
-@media (min-width: 768px) {
-    .modal-dialog {
-        width: 600px;
+@media (min-width: 1024px) {
+    .modal .modal-dialog {
+        width: 90%;
         margin: 30px auto;
     }
-    .modal-content {
+
+    .modal .modal-content {
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
         box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
     }
-    .modal-sm {
+}
+
+@media (min-width: 768px)
+    .modal .modal-sm {
         width: 300px;
     }
 }
+
 @media (min-width: 992px) {
-    .modal-lg {
+    .modal .modal-lg {
         width: 900px;
     }
 }
@@ -17054,7 +17059,7 @@ footer.site-footer .colophon li {
     transform: none;
 }
 .modal .modal-dialog {
-    max-width: 640px;
+    max-width: 1000px;
     -webkit-transform: translateY(80%) scale(0.8);
     transform: translateY(80%) scale(0.8);
     transition-timing-function: cubic-bezier(0.3, 0, 0, 1.3);
