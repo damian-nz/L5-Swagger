@@ -22,9 +22,6 @@ class SwaggerController extends BaseController
         $filePath = config('l5-swagger.paths.docs').'/'.
             (! is_null($jsonFile) ? $jsonFile : config('l5-swagger.paths.docs_json', 'api-docs.json'));
 
-        if (File::extension($filePath) === '') {
-            $filePath .= '.json';
-        }
         if (! File::exists($filePath)) {
             abort(404, 'Cannot find '.$filePath);
         }
@@ -52,43 +49,28 @@ class SwaggerController extends BaseController
             Request::setTrustedProxies([$proxy]);
         }
 
-        $extras = [];
-        if (array_key_exists('validatorUrl', config('l5-swagger'))) {
-            // This allows for a null value, since this has potentially
-            // desirable side effects for swagger. See the view for more
-            // details.
-            $extras['validatorUrl'] = config('l5-swagger.validatorUrl');
-        }
-        
-        $viewPath = config('l5-swagger.paths.views_relative');
-        if (empty($viewPath) === false) {
-            $view = sprintf('%s/index', $viewPath);
-        } else {
-            $view = 'l5-swagger::index';
-        }
-        
         // Need the / at the end to avoid CORS errors on Homestead systems.
         $response = Response::make(
-            view($view, [
-                'apiKey'             => config('l5-swagger.api.auth_token'),
-                'apiKeyVar'          => config('l5-swagger.api.key_var'),
-                'securityDefinition' => config('l5-swagger.api.security_definition'),
-                'apiKeyInject'       => config('l5-swagger.api.key_inject'),
+            view('l5-swagger::index', [
                 'secure'             => Request::secure(),
                 'urlToDocs'          => route('l5-swagger.docs', config('l5-swagger.paths.docs_json', 'api-docs.json')),
-                'requestHeaders'     => config('l5-swagger.headers.request'),
-                'docExpansion'       => config('l5-swagger.docExpansion'),
-            ], $extras),
+                'operationsSorter'   => config('l5-swagger.operations_sort'),
+                'configUrl'          => config('l5-swagger.additional_config_url'),
+                'validatorUrl'       => config('l5-swagger.validator_url'),
+            ]),
             200
         );
 
-        $headersView = config('l5-swagger.headers.view');
-        if (is_array($headersView) and ! empty($headersView)) {
-            foreach ($headersView as $key => $value) {
-                $response->header($key, $value);
-            }
-        }
-
         return $response;
+    }
+
+    /**
+     * Display Oauth2 callback pages.
+     *
+     * @return string
+     */
+    public function oauth2Callback()
+    {
+        return \File::get(swagger_ui_dist_path('oauth2-redirect.html'));
     }
 }

@@ -18,14 +18,14 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Publish config, views, assets';
+    protected $description = 'Publish config, views';
 
     /**
      * Execute the console command.
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $this->info('Publishing all files');
         $this->call('vendor:publish', [

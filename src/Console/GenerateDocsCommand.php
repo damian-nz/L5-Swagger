@@ -2,8 +2,8 @@
 
 namespace L5Swagger\Console;
 
-use Illuminate\Console\Command;
 use L5Swagger\Generator;
+use Illuminate\Console\Command;
 
 class GenerateDocsCommand extends Command
 {
@@ -26,7 +26,7 @@ class GenerateDocsCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $this->info('Regenerating docs');
         Generator::generateDocs();

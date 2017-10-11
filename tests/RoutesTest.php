@@ -1,29 +1,32 @@
 <?php
 
-class RoutesTest extends \TestCase
+namespace Tests;
+
+class RoutesTest extends TestCase
 {
     /** @test */
-    public function user_cant_access_json_file_if_it_is_not_generated()
+    public function userCantAccessJsonFileIfItIsNotGenerated()
     {
         $jsonUrl = route('l5-swagger.docs');
-        $this->setExpectedException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
-        $this->visit($jsonUrl);
+
+        $response = $this->get($jsonUrl);
+        $this->assertTrue($response->isNotFound());
     }
 
     /** @test */
-    public function user_can_access_json_file_if_it_is_generated()
+    public function userCanAccessJsonFileIfItIsGenerated()
     {
         $jsonUrl = route('l5-swagger.docs');
 
         $this->crateJsonDocumentationFile();
 
-        $this->visit($jsonUrl)
-            ->see('{}')
-            ->assertResponseOk();
+        $this->get($jsonUrl)
+            ->assertSee('{}')
+            ->isOk();
     }
 
     /** @test */
-    public function user_can_access_and_generate_custom_json_file()
+    public function userCanAccessAndGenerateCustomJsonFile()
     {
         $customJsonFileName = 'docs.v1.json';
 
@@ -32,16 +35,34 @@ class RoutesTest extends \TestCase
         $this->setCustomDocsFileName($customJsonFileName);
         $this->crateJsonDocumentationFile();
 
-        $this->visit($jsonUrl)
-            ->see('{}')
-            ->assertResponseOk();
+        $this->get($jsonUrl)
+            ->assertSee('{}')
+            ->isOk();
     }
 
     /** @test */
-    public function user_can_access_documentation_interface()
+    public function userCanAccessDocumentationInterface()
     {
-        $this->visit(config('l5-swagger.routes.api'))
-        ->see(route('l5-swagger.docs', config('l5-swagger.paths.docs_json', 'api-docs.json')))
-        ->assertResponseOk();
+        $this->get(config('l5-swagger.routes.api'))
+            ->assertSee(route('l5-swagger.docs', config('l5-swagger.paths.docs_json', 'api-docs.json')))
+            ->assertSee(route('l5-swagger.oauth2_callback'))
+            ->isOk();
+    }
+
+    /** @test */
+    public function itCanServeAssets()
+    {
+        $this->get(l5_swagger_asset('swagger-ui.css'))
+            ->assertSee('.swagger-ui')
+            ->isOk();
+    }
+
+    /** @test */
+    public function userCanAccessOauth2Redirect()
+    {
+        $this->get(route('l5-swagger.oauth2_callback'))
+            ->assertSee('swaggerUIRedirectOauth2')
+            ->assertSee('oauth2.auth.code')
+            ->isOk();
     }
 }
